@@ -16,7 +16,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [UsersController],
   providers: [
     UsersRepository,
-    UsersService
+    UsersService,
+    {
+      provide: 'RABBITMQ_DELAYED_EXCHANGE',
+      useFactory: () => ({
+      exchange: 'notifications_delayed',
+      type: 'x-delayed-message',
+      options: {
+        arguments: {
+        'x-delayed-type': 'direct',
+        },
+      },
+      }),
+    }
   ],
   exports: [UsersService]
 })

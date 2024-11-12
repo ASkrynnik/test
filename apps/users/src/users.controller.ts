@@ -22,9 +22,7 @@ export class UsersController {
 
     const createdUser = await this.usersService.create(createUserDto);
 
-    this.notificationsService.emit('queuePush', { 
-      userId: createdUser.id, 
-    })
+    this.usersService.sendDelayedMessage({ userId: createdUser.id, pattern: 'queuePush' });
 
     return createdUser;
   }

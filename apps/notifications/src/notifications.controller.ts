@@ -10,9 +10,13 @@ export class NotificationsController {
     private readonly notificationsService: NotificationsService
   ) {}
   @MessagePattern('queuePush')
-  handleNotification(@Ctx() context: RmqContext, @Payload() data: any) {
+  handleNotification(@Ctx() context: RmqContext) {
+    const originalMessage = context.getMessage();
+    const payload = JSON.parse(originalMessage.content.toString());
+    console.log('Received message:', payload);
+    
     this.sharedService.acknowledgeMessage(context);
 
-    this.notificationsService.sendNotificationWithDelay(data.userId);
+    this.notificationsService.sendNotificationWithDelay(payload.userId);
   }
 }
