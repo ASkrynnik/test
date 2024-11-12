@@ -8,12 +8,10 @@ import { AxiosError } from 'axios';
 export class NotificationsService {
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService
   ) {}
 
   async sendNotificationWithDelay(id: string) {
     const webhookUrl = 'https://webhook.site/2fc25a5c-48a1-4660-a1ad-c3eb64403586';
-    console.log('Sending push webhook to:', webhookUrl);
       setTimeout(() => {
         this.httpService.post(webhookUrl, { id })
           .pipe(
@@ -22,7 +20,7 @@ export class NotificationsService {
           throw error;
         })
           ).subscribe();
-      }, 10000);
+      }, 86400000);
 
   }
 }

@@ -11,7 +11,6 @@ export class NotificationsController {
   ) {}
   @MessagePattern('queuePush')
   handleNotification(@Ctx() context: RmqContext, @Payload() data: any) {
-    console.log('Received push notification:', data);
     this.sharedService.acknowledgeMessage(context);
 
     this.notificationsService.sendNotificationWithDelay(data.userId);
